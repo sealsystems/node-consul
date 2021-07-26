@@ -39,7 +39,7 @@
     "@sealsystems/semantic-release": "4.3.4",
     "docker-host": "3.1.0",
     "mockery": "2.1.0",
-    "nodeenv": "1.0.0",
+    "nodeenv": "3.0.67",
     "proxyquire": "2.1.3",
     "uuid": "7.0.3"
   },
