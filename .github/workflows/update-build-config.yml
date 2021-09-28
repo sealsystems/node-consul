@@ -87,8 +87,8 @@ jobs:
             exit 0
           fi
 
-          if [ -n "sealsystems/com-infrastructure" ]; then
-            reviewerOption="--reviewer sealsystems/com-infrastructure"
+          if [ -n "" ]; then
+            reviewerOption="--reviewer "
           fi
 
           gh pr create \
