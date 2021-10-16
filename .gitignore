@@ -24,3 +24,6 @@ temp/
 
 # VSCode
 .vscode/settings.json
+
+# IDEA
+.idea
