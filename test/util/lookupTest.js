@@ -89,7 +89,7 @@ suite('util.lookup', () => {
     assert.that(ip).is.equalTo('127.0.0.1');
   });
 
-  test('gives up after 5 retries', async function() {
+  test('gives up after 5 retries', async function () {
     this.timeout(5 * 1000);
     resolveResults = [
       {

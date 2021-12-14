@@ -21,7 +21,7 @@ suite('watch.kv', () => {
       .is.throwingAsync('Key is missing.');
   });
 
-  test('emits changed event when a key is changing', async function() {
+  test('emits changed event when a key is changing', async function () {
     this.timeout(10000);
 
     const key = `dc/home/${uuid()}/`;

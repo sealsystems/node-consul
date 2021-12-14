@@ -22,7 +22,7 @@ suite('watch.service', () => {
   });
 
   suite('sends notification', () => {
-    test('about services that are already running at start.', async function() {
+    test('about services that are already running at start.', async function () {
       this.timeout(10000);
 
       const serviceName = uuid();
@@ -59,7 +59,7 @@ suite('watch.service', () => {
       });
     });
 
-    test('if an active service fails.', async function() {
+    test('if an active service fails.', async function () {
       this.timeout(10000);
 
       const serviceName = uuid();
@@ -104,7 +104,7 @@ suite('watch.service', () => {
       });
     });
 
-    test('if a broken service is up again.', async function() {
+    test('if a broken service is up again.', async function () {
       this.timeout(10000);
 
       const serviceName = uuid();
