@@ -62,7 +62,7 @@ suite('consul.connect', () => {
       .is.throwingAsync('Consul url is missing.');
   });
 
-  test('stores the host and port of the service as provided in options.serviceUrl.', async function() {
+  test('stores the host and port of the service as provided in options.serviceUrl.', async function () {
     this.timeout(10000);
 
     await consul.connect({
@@ -71,7 +71,7 @@ suite('consul.connect', () => {
       serviceUrl: `http://${host}:3000`
     });
 
-    const checkHost = function() {
+    const checkHost = function () {
       // Special treatment for localhost
       if (host === 'localhost') {
         return consul.options.address === '127.0.0.1';
@@ -112,7 +112,7 @@ suite('consul.connect', () => {
     assert.that(consul.options.tags[1]).is.equalTo(require('../../package.json').version.replace(/\./g, '-'));
   });
 
-  test('does not set address if there is no hostname in "serviceUrl".', async function() {
+  test('does not set address if there is no hostname in "serviceUrl".', async function () {
     this.timeout(60 * 1000);
 
     await consul.connect({
