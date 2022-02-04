@@ -226,7 +226,7 @@ jobs:
 
       - name: Trigger release
         run: |
-          npm i --no-save @sealsystems/semantic-release@latest
+          npm install --no-save @sealsystems/semantic-release@latest
           npm run release
         env:
           # Use personal access token, must be set for *each step*
