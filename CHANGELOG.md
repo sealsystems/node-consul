@@ -1,3 +1,10 @@
+## 5.1.20 (2022-02-06)
+
+### Chores
+
+
+bump [@sealsystems](https://github.com/sealsystems)/error from 2.3.6 to 2.3.8 ([e5caa79](https://github.com/sealsystems/node-consul/commit/e5caa79))
+
 ## 5.1.19 (2021-06-22)
 
 ### Chores
