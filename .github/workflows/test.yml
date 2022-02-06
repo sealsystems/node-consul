@@ -12,17 +12,7 @@ env:
   TLS_UNPROTECTED: world
 
 jobs:
-  Cancel-Old-Runs:
-    runs-on: ubuntu-18.04
-
-    steps:
-    - uses: rokroskar/workflow-run-cleanup-action@v0.3.0
-      env:
-        GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
-
   Test-Linux:
-    needs:
-      - Cancel-Old-Runs
     runs-on: ubuntu-18.04
 
     services:
@@ -70,8 +60,6 @@ jobs:
         NODE_AUTH_TOKEN: ${{ secrets.CI_TOKEN }}
 
   # Test-Windows:
-  #   needs:
-  #     - Cancel-Old-Runs
   #   runs-on: windows-2019
 
   #   steps:
