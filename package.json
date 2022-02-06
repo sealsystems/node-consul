@@ -22,7 +22,7 @@
   "main": "lib/consul.js",
   "dependencies": {
     "@sealsystems/droddel": "2.2.4",
-    "@sealsystems/error": "2.3.6",
+    "@sealsystems/error": "2.3.8",
     "@sealsystems/tlscert": "2.3.20",
     "app-root-path": "3.0.0",
     "async-retry": "1.3.1",
