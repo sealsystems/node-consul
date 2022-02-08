@@ -1,3 +1,10 @@
+## 5.1.22 (2022-02-08)
+
+### Chores
+
+
+update-deps ([ae4f42a](https://github.com/sealsystems/node-consul/commit/ae4f42a))
+
 ## 5.1.21 (2022-02-07)
 
 ### Chores
