@@ -1,3 +1,10 @@
+## 5.1.25 (2022-08-15)
+
+### Chores
+
+
+bump [@sealsystems](https://github.com/sealsystems)/tlscert from 2.3.22 to 2.4.0 ([b858e80](https://github.com/sealsystems/node-consul/commit/b858e80))
+
 ## 5.1.24 (2022-07-26)
 
 ### Chores
