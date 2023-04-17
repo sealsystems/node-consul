@@ -32,4 +32,8 @@ suite('cloud.index', () => {
       assert.that(err.message).is.equalTo('Function "getKvs" not supported in cloud environment.');
     }
   });
+
+  test('setEnv never throws an error', async () => {
+    await cloud.setEnv();
+  });
 });
