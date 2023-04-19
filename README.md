@@ -1,6 +1,5 @@
 # @sealsystems/consul
 
-
 @sealsystems/consul provides service discovery based on Consul.
 
 ## Installation
@@ -85,7 +84,6 @@ This will change the expanded service name given above to: `checkout.service.sea
 
 To enable cloud environment set the environment variable `SERVICE_DISCOVERY` to the value `cloud`. To disable cloud environment unset the variable or set it to the value `consul`. Additionally the environment variable `SERVICE_DISCOVERY_PORT` defines the https port all services are available. Default is `3000`.
 
-
 ## Initializing without connecting first
 
 It is assumed that you call `consul.connect` first. This will establish the connection to the local Consul agent. The other functions (e.g. `consul.getHostname`) will throw an error if this connection has not been initialized.
@@ -93,6 +91,24 @@ It is assumed that you call `consul.connect` first. This will establish the conn
 If you do not want to register a service check via `consul.connect`, just call `consul.initialize` instead. This will only connect to the Consul agent. Now, you can  use most of the other functions.
 
 Please note: `consul.heartbeat`, `consul.lookup`, `consul.resolveService` require `consul.connect` to be called. They will not work properly if you only call `consul.initialize`.
+
+## Get configuration from consul kv store
+
+To read configuration from consul kv store, you can use the `consul.setEnv` function. It will read all key-value pairs from the service path (starting with `dc/home/env/service/...`) and set them as environment variables. The path must be given without the leading slash.
+
+```javascript
+await consul.setEnv(options);
+```
+
+The method initializes the connection to the local Consul agent. The following options are available:
+
+- `consulUrl`: The URL of a Consul server.
+- `consulConfig`: The path and filename to a JSON file, containing a `consul.address` property of format `host:port` like the `envconsul.json` file.
+- `defaultUrl`: The URL of a Consul server, if no other URL is given or the file could not be read.
+- `serviceName`: The name of the service to read the configuration for. If not given, the name of the service is read from the environment variable `SERVICE_NAME`.
+- `serviceTags`: An array of service tags. If not given, the tags of the service are read from the environment variable `SERVICE_TAGS`. Tags are optional.
+
+At least on of the options `consulUrl`, `consulConfig` and `defaultUrl` must be given and valid.
 
 ## Running the build
 
