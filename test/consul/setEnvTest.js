@@ -2,7 +2,6 @@
 'use strict';
 
 const { EventEmitter } = require('events');
-const readline = require('readline');
 
 const assert = require('assertthat');
 const host = require('docker-host')().host;
@@ -14,20 +13,8 @@ const setEnv = require('../../lib/consul/setEnv');
 
 suite('consul.setEnv', () => {
   let options;
-  let winSigInt;
 
   suiteSetup(async () => {
-    winSigInt = new EventEmitter();
-
-    if (process.platform === 'win32') {
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-      });
-      rl.on('SIGINT', () => {
-        winSigInt.emit('sigint');
-      });
-    }
     options = {
       consulUrl: `http://${host}:8500`,
       serviceName: 'test',
@@ -114,15 +101,18 @@ suite('consul.setEnv', () => {
 
   test('watches existing pathes', async function () {
     this.timeout(5000);
+    const exitEmitter = new EventEmitter();
+    const orig = process.exit;
+    process.exit = (code) => {
+      process.exit = orig;
+      exitEmitter.code = code;
+      exitEmitter.emit('exitCalled');
+    };
     const watcher = await consul.setEnv(options);
 
     await new Promise((resolve) => {
-      process.once('SIGINT', () => {
-        console.log('Got SIGINT signal.');
-        resolve();
-      });
-      winSigInt.once('sigint', () => {
-        console.log('Got SIGINT signal.');
+      exitEmitter.once('exitCalled', () => {
+        assert.that(exitEmitter.code).is.equalTo(1);
         resolve();
       });
       watcher.once('error', (err) => {
@@ -138,16 +128,20 @@ suite('consul.setEnv', () => {
 
   test('watches non-existing pathes', async function () {
     this.timeout(5000);
+    const exitEmitter = new EventEmitter();
+    const orig = process.exit;
+    process.exit = (code) => {
+      process.exit = orig;
+      exitEmitter.code = code;
+      exitEmitter.emit('exitCalled');
+    };
+
     options.serviceTags = ['nix'];
     const watcher = await consul.setEnv(options);
 
     await new Promise((resolve) => {
-      process.once('SIGINT', () => {
-        console.log('Got SIGINT signal.');
-        resolve();
-      });
-      winSigInt.once('sigint', () => {
-        console.log('Got SIGINT signal.');
+      exitEmitter.once('exitCalled', () => {
+        assert.that(exitEmitter.code).is.equalTo(1);
         resolve();
       });
       watcher.once('error', (err) => {
