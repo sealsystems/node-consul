@@ -102,9 +102,12 @@ suite('consul.setEnv', () => {
     const watcher = await consul.setEnv(options);
 
     await new Promise((resolve) => {
-      watcher.once('error', (err) => {
-        assert.that(err.message).is.startingWith('Configuration changed');
+      process.once('SIGINT', () => {
+        console.log('Got SIGINT signal.');
         resolve();
+      });
+      watcher.once('error', (err) => {
+        throw err;
       });
       setTimeout(() => {
         consul.consul.kv.set({ key: `${options.basePath}dc/home/env/service/any/tag/any/X_BLA`, value: 'blabla' });
@@ -120,9 +123,12 @@ suite('consul.setEnv', () => {
     const watcher = await consul.setEnv(options);
 
     await new Promise((resolve) => {
-      watcher.once('error', (err) => {
-        assert.that(err.message).is.startingWith('Configuration changed');
+      process.once('SIGINT', () => {
+        console.log('Got SIGINT signal.');
         resolve();
+      });
+      watcher.once('error', (err) => {
+        throw err;
       });
       setTimeout(() => {
         consul.consul.kv.set({ key: `${options.basePath}dc/home/env/service/any/tag/nix/X_NIX`, value: 'garnix' });
