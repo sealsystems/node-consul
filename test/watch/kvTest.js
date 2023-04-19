@@ -83,4 +83,41 @@ suite('watch.kv', () => {
       });
     });
   });
+
+  test('waits for path to exist', async function () {
+    this.timeout(10000);
+
+    const key = `dc/home/${uuid()}/`;
+
+    await consul.connect({
+      consulUrl: `http://${host}:8500`,
+      serviceName: 'test',
+      serviceUrl: `http://${host}:3000`,
+      status: 'pass'
+    });
+
+    const watch = consul.watchKv({ key, backoffFactor: 100, backoffMax: 500 });
+
+    const start = Date.now();
+    let errCount = 0;
+    await new Promise((resolve) => {
+      watch.on('change', async (data) => {
+        assert.that(data[0]).is.equalTo(`${key}bla`);
+        watch.stopWatching();
+        resolve();
+      });
+
+      watch.on('error', (err) => {
+        assert.that(err.statusCode).is.equalTo(404);
+        errCount++;
+      });
+
+      setTimeout(() => {
+        consul.consul.kv.set({ key: `${key}bla`, value: 'huhu' });
+      }, 1000);
+    });
+    const stop = Date.now();
+    assert.that(stop - start).is.between(1000, 1600);
+    assert.that(errCount).is.atLeast(1);
+  });
 });

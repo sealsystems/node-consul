@@ -13,20 +13,16 @@ suite('consul.setEnv', () => {
   let options;
 
   suiteSetup(async () => {
-    await consul.connect({
+    options = {
       consulUrl: `http://${host}:8500`,
       serviceName: 'test',
       serviceUrl: `http://${host}:3000`,
-      status: 'pass'
-    });
-
-    options = {
-      consulUrl: 'https://localhost:8500',
-      serviceName: 'test',
-      serviceTags: 'myTag',
+      status: 'pass',
+      serviceTags: ['myTag'],
       basePath: `${uuid()}/`
     };
 
+    await consul.connect(options);
     await consul.consul.kv.set({ key: `${options.basePath}dc/home/env/service/any/tag/any/X_BLA`, value: 'bla' });
     await consul.consul.kv.set({
       key: `${options.basePath}dc/home/env/service/any/tag/any/X_SUB/SUBBLA`,
@@ -44,6 +40,7 @@ suite('consul.setEnv', () => {
   });
 
   setup(async () => {
+    options.serviceTags = ['myTag'];
     for (const key of Object.keys(process.env)) {
       if (key.startsWith('X_')) {
         delete process.env[key];
@@ -60,7 +57,7 @@ suite('consul.setEnv', () => {
   });
 
   suiteTeardown(async () => {
-    await consul.consul.kv.del({ key: options.basePath, recurse: true });
+    //await consul.consul.kv.del({ key: options.basePath, recurse: true });
   });
 
   test('is a function.', async () => {
@@ -91,12 +88,47 @@ suite('consul.setEnv', () => {
   });
 
   test('sets the keys', async () => {
-    await consul.setEnv(options);
+    const watcher = await consul.setEnv(options);
     assert.that(process.env.X_BLA).is.equalTo('bla');
     assert.that(process.env.X_BLA2).is.equalTo('bla2');
     assert.that(process.env.X_BLUB).is.equalTo('blub');
     assert.that(process.env.X_BLUB2).is.equalTo('blub2');
     assert.that(process.env.X_SUB_SUBBLA).is.equalTo('subsubbla');
+    watcher.stopWatching();
+  });
+
+  test('watches existing pathes', async function () {
+    this.timeout(5000);
+    const watcher = await consul.setEnv(options);
+
+    await new Promise((resolve) => {
+      watcher.once('error', (err) => {
+        assert.that(err.message).is.startingWith('Configuration changed');
+        resolve();
+      });
+      setTimeout(() => {
+        consul.consul.kv.set({ key: `${options.basePath}dc/home/env/service/any/tag/any/X_BLA`, value: 'blabla' });
+      }, 500);
+    });
+    watcher.stopWatching();
+    consul.consul.kv.set({ key: `${options.basePath}dc/home/env/service/any/tag/any/X_BLA`, value: 'bla' });
+  });
+
+  test('watches non-existing pathes', async function () {
+    this.timeout(5000);
+    options.serviceTags = ['nix'];
+    const watcher = await consul.setEnv(options);
+
+    await new Promise((resolve) => {
+      watcher.once('error', (err) => {
+        assert.that(err.message).is.startingWith('Configuration changed');
+        resolve();
+      });
+      setTimeout(() => {
+        consul.consul.kv.set({ key: `${options.basePath}dc/home/env/service/any/tag/nix/X_NIX`, value: 'garnix' });
+      }, 500);
+    });
+    watcher.stopWatching();
   });
 
   test('initializes consul', async () => {
@@ -110,7 +142,7 @@ suite('consul.setEnv', () => {
       consul.initialize = origI;
       initCalled = true;
     };
-    await consul.setEnv(options);
+    (await consul.setEnv(options)).stopWatching();
 
     assert.that(initCalled).is.true();
   });
