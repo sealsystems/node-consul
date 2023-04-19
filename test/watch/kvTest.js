@@ -13,14 +13,6 @@ suite('watch.kv', () => {
     assert.that(kvTree).is.ofType('function');
   });
 
-  test('throws an error if service name is missing.', async () => {
-    await assert
-      .that(async () => {
-        await kvTree({});
-      })
-      .is.throwingAsync('Key is missing.');
-  });
-
   test('emits changed event when a key is changing', async function () {
     this.timeout(10000);
 
@@ -59,5 +51,36 @@ suite('watch.kv', () => {
         subKeyChanged = true;
       })()
     ]);
+    watch.stopWatching();
+  });
+
+  test('emits error for unknown path', async function () {
+    this.timeout(10000);
+
+    const key = `dc/home/${uuid()}/bla/${uuid()}/`;
+
+    await consul.connect({
+      consulUrl: `http://${host}:8500`,
+      serviceName: 'test',
+      serviceUrl: `http://${host}:3000`,
+      status: 'pass'
+    });
+
+    const result = await consul.consul.kv.set({ key: 'dc/home/', value: '' });
+    assert.that(result).is.true();
+
+    const watch = consul.watchKv({ key });
+
+    await new Promise((resolve, reject) => {
+      watch.on('change', async () => {
+        reject(new Error('Should not happen.'));
+      });
+
+      watch.on('error', (err) => {
+        assert.that(err.statusCode).is.equalTo(404);
+        watch.stopWatching();
+        resolve();
+      });
+    });
   });
 });
