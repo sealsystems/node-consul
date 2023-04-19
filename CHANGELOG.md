@@ -1,3 +1,19 @@
+## 5.2.0 (2023-04-19)
+
+### Chores
+
+
+Fixed test for windows ([b3206b0](https://github.com/sealsystems/node-consul/commit/b3206b0))
+
+next try to fix windows test ([06582fa](https://github.com/sealsystems/node-consul/commit/06582fa))
+
+### Features
+
+
+Added setEnv method ([17f8740](https://github.com/sealsystems/node-consul/commit/17f8740))
+
+Added setEnv method for setting environment with configuration read from consul and watching for changes.
+
 ## 5.1.25 (2022-08-15)
 
 ### Chores
