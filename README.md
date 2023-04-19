@@ -1,6 +1,5 @@
 # @sealsystems/consul
 
-
 @sealsystems/consul provides service discovery based on Consul.
 
 ## Installation
@@ -110,7 +109,6 @@ The method initializes the connection to the local Consul agent. The following o
 - `serviceTags`: An array of service tags. If not given, the tags of the service are read from the environment variable `SERVICE_TAGS`. Tags are optional.
 
 At least on of the options `consulUrl`, `consulConfig` and `defaultUrl` must be given and valid.
-
 
 ## Running the build
 
