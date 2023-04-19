@@ -1,6 +1,9 @@
 /* eslint-disable no-process-env */
 'use strict';
 
+const { EventEmitter } = require('events');
+const readline = require('readline');
+
 const assert = require('assertthat');
 const host = require('docker-host')().host;
 const { v4: uuid } = require('uuid');
@@ -11,8 +14,20 @@ const setEnv = require('../../lib/consul/setEnv');
 
 suite('consul.setEnv', () => {
   let options;
+  let winSigInt;
 
   suiteSetup(async () => {
+    winSigInt = new EventEmitter();
+
+    if (process.platform === 'win32') {
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+      rl.on('SIGINT', () => {
+        winSigInt.emit('sigint');
+      });
+    }
     options = {
       consulUrl: `http://${host}:8500`,
       serviceName: 'test',
@@ -106,6 +121,10 @@ suite('consul.setEnv', () => {
         console.log('Got SIGINT signal.');
         resolve();
       });
+      winSigInt.once('sigint', () => {
+        console.log('Got SIGINT signal.');
+        resolve();
+      });
       watcher.once('error', (err) => {
         throw err;
       });
@@ -124,6 +143,10 @@ suite('consul.setEnv', () => {
 
     await new Promise((resolve) => {
       process.once('SIGINT', () => {
+        console.log('Got SIGINT signal.');
+        resolve();
+      });
+      winSigInt.once('sigint', () => {
         console.log('Got SIGINT signal.');
         resolve();
       });
