@@ -1,3 +1,10 @@
+## 5.2.1 (2023-04-20)
+
+### Chores
+
+
+Added default file paths ([d5ab0ab](https://github.com/sealsystems/node-consul/commit/d5ab0ab))
+
 ## 5.2.0 (2023-04-19)
 
 ### Chores
