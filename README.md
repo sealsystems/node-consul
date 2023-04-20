@@ -102,13 +102,13 @@ await consul.setEnv(options);
 
 The method initializes the connection to the local Consul agent. The following options are available:
 
-- `consulUrl`: The URL of a Consul server.
-- `consulConfig`: The path and filename to a JSON file, containing a `consul.address` property of format `host:port` like the `envconsul.json` file.
-- `defaultUrl`: The URL of a Consul server, if no other URL is given or the file could not be read.
+- `consulUrl`: The URL of a consul server.
+- `consulConfig`: The path and filename to a JSON file, containing a `consul.address` property of format `host:port` like the `envconsul.json` file. Defaults to `/opt/seal/etc/envconsul.json` on linux and `$ProgrammData\SEAL Systems\config\envconsul.json` on windows.
+- `defaultUrl`: The URL of a Consul server, if no other URL is given or the `consulConfig` file could not be read.
 - `serviceName`: The name of the service to read the configuration for. If not given, the name of the service is read from the environment variable `SERVICE_NAME`.
 - `serviceTags`: An array of service tags. If not given, the tags of the service are read from the environment variable `SERVICE_TAGS`. Tags are optional.
 
-At least on of the options `consulUrl`, `consulConfig` and `defaultUrl` must be given and valid.
+If no URL to a consul server could be determined an exception is thrown. It is recommended to set at least the `defaultUrl` option.
 
 ## Running the build
 
