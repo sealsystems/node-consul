@@ -21,7 +21,8 @@ suite('consul.setEnv', () => {
       serviceUrl: `http://${host}:3000`,
       status: 'pass',
       serviceTags: ['myTag'],
-      basePath: `${uuid()}/`
+      basePath: `${uuid()}/`,
+      retries: 1
     };
 
     await consul.connect(options);
@@ -74,9 +75,11 @@ suite('consul.setEnv', () => {
     }
   });
 
-  test('throws an error if consul methods throw error', async () => {
+  test('retries call and throws an error if consul methods throw error', async () => {
+    let keysCalled = 0;
     const orig = consul.consul.kv.keys;
     consul.consul.kv.keys = async () => {
+      keysCalled++;
       throw new Error('Kv error');
     };
 
@@ -84,6 +87,7 @@ suite('consul.setEnv', () => {
       await consul.setEnv(options);
     } catch (err) {
       assert.that(err.message).is.equalTo('Kv error');
+      assert.that(keysCalled).is.equalTo(2);
     }
 
     consul.consul.kv.keys = orig;
