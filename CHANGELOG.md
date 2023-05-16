@@ -1,3 +1,10 @@
+## 5.3.0 (2023-05-16)
+
+### Features
+
+
+Added retry around consul calls in setEnv ([74a800b](https://github.com/sealsystems/node-consul/commit/74a800b))
+
 ## 5.2.1 (2023-04-20)
 
 ### Chores
