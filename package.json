@@ -23,8 +23,8 @@
   "dependencies": {
     "@sealsystems/droddel": "2.2.4",
     "@sealsystems/error": "2.4.0",
-    "@sealsystems/log": "2.4.2",
-    "@sealsystems/tlscert": "2.4.0",
+    "@sealsystems/log": "2.4.3",
+    "@sealsystems/tlscert": "2.5.2",
     "app-root-path": "3.1.0",
     "async-retry": "1.3.3",
     "cache": "2.3.1",

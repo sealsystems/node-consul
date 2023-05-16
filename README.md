@@ -107,6 +107,7 @@ The method initializes the connection to the local Consul agent. The following o
 - `defaultUrl`: The URL of a Consul server, if no other URL is given or the `consulConfig` file could not be read.
 - `serviceName`: The name of the service to read the configuration for. If not given, the name of the service is read from the environment variable `SERVICE_NAME`.
 - `serviceTags`: An array of service tags. If not given, the tags of the service are read from the environment variable `SERVICE_TAGS`. Tags are optional.
+- `retries`: The number of retries to get the configuration from consul. Defaults to 10.
 
 If no URL to a consul server could be determined an exception is thrown. It is recommended to set at least the `defaultUrl` option.
 
