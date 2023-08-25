@@ -23,7 +23,8 @@ await consul.connect({
   id: 'my-service-id',
   name: 'my-service-name',
   serviceUrl: 'http://localhost:3000', // URL of my service
-  consulUrl: 'http://localhost:8500' // URL of a Consul server
+  consulUrl: 'http://localhost:8500', // URL of a Consul server
+  dnsPort: '8600' // Optional non-default port of the DNS server
 });
 
 // Your service is now registered
