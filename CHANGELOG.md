@@ -1,3 +1,10 @@
+## 5.4.0 (2023-08-28)
+
+### Features
+
+
+Added optional DNS port configuration ([b50e60a](https://github.com/sealsystems/node-consul/commit/b50e60a))
+
 ## 5.3.0 (2023-05-16)
 
 ### Features
