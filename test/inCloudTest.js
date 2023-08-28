@@ -3,7 +3,7 @@
 
 const assert = require('assertthat');
 const mockery = require('mockery');
-const nodeenv = require('nodeenv');
+const { nodeenv } = require('nodeenv');
 
 suite('inCloud', () => {
   setup(async () => {
