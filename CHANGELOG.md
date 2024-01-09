@@ -1,3 +1,10 @@
+## 5.4.1 (2024-01-09)
+
+### Bug Fixes
+
+
+updated deps ([26ab5a3](https://github.com/sealsystems/node-consul/commit/26ab5a3))
+
 ## 5.4.0 (2023-08-28)
 
 ### Features
