@@ -80,6 +80,23 @@ suite('util.getConsulOptions', () => {
       assert.that(options.secure).is.undefined();
       restore();
     });
+
+    test("is set if TLS_UNPROTECTED is 'world' and CONSUL_FORCE_TLS is true.", async () => {
+      const restore = nodeenv({
+        TLS_UNPROTECTED: 'world',
+        CONSUL_FORCE_TLS: 'true'
+      });
+
+      keystore = {
+        cert: 'cert',
+        key: 'key'
+      };
+
+      const options = await getConsulOptions({ consulUrl: 'https://foo' });
+
+      assert.that(options.secure).is.true();
+      restore();
+    });
   });
 
   // eslint-disable-next-line mocha/no-async-describe

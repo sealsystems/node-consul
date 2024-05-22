@@ -3,7 +3,7 @@
 const path = require('path');
 
 const assert = require('assertthat');
-const getenv = require('getenv');
+const getenv = require('@sealsystems/seal-getenv');
 const proxyquire = require('proxyquire');
 
 let readError;
