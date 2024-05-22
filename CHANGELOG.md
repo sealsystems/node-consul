@@ -1,3 +1,16 @@
+## 6.0.0 (2024-05-22)
+
+### Features
+
+
+Updated consul to 1.2.0, added CONSUL_FORCE_TLS ([2cc75c1](https://github.com/sealsystems/node-consul/commit/2cc75c1))
+
+
+
+### BREAKING CHANGES
+
+Updated consul from version 0.40.0 to version 1.2.0
+
 ## 5.4.1 (2024-01-09)
 
 ### Bug Fixes
