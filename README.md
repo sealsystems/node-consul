@@ -8,6 +8,11 @@
 npm install @sealsystems/consul
 ```
 
+## Environment variables
+
+- TLS_UNPROTECTED: possible values are `world`, `none`, `loopback`
+- CONSUL_FORCE_TLS: always use TLS for communication with Consul, independent of the value of `TLS_UNPROTECTED`
+
 ## Quick start
 
 First you need to add a reference to @sealsystems/consul within your application.
