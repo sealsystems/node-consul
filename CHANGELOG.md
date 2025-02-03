@@ -1,3 +1,10 @@
+## 6.0.2 (2025-02-03)
+
+### Bug Fixes
+
+
+updated deps ([18ea140](https://github.com/sealsystems/node-consul/commit/18ea140))
+
 ## 6.0.1 (2025-01-08)
 
 ### Bug Fixes
