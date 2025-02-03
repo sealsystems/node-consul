@@ -1,3 +1,10 @@
+## 6.0.3 (2025-02-03)
+
+### Bug Fixes
+
+
+updated deps again ([0a366f7](https://github.com/sealsystems/node-consul/commit/0a366f7))
+
 ## 6.0.2 (2025-02-03)
 
 ### Bug Fixes
