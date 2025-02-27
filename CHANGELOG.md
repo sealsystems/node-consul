@@ -1,3 +1,10 @@
+## 6.0.4 (2025-02-27)
+
+### Bug Fixes
+
+
+Use own parse-duration module ([aea9929](https://github.com/sealsystems/node-consul/commit/aea9929))
+
 ## 6.0.3 (2025-02-03)
 
 ### Bug Fixes
